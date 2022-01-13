@@ -32,7 +32,8 @@ const Actions = () => {
     });
     console.log(response);
     const buf = Buffer.from(response.returnData[0], "base64");
-    setNftsMinted(DROP_SIZE - parseInt(buf.toString("hex"), 16));
+    const minted = parseInt(buf.toString("hex"), 16);
+    isNaN(minted) ? setNftsMinted(0) : setNftsMinted(DROP_SIZE - minted);
   };
 
   React.useEffect(() => {
@@ -67,21 +68,20 @@ const Actions = () => {
   };
 
   return (
-    <div className="text-white">
-      <div className="input-qty">
-        <button id="minus" onClick={handleChange}>
+    <div className="mint-container">
+      <div>
+        <button className="change-qty" id="minus" onClick={handleChange}>
           -
         </button>
-        <span>{quantity}</span>
-        <button id="plus" onClick={handleChange}>
+        <button className="mint-btn" onClick={send(mintTransaction)}>
+          Mint {quantity} NFT
+        </button>
+        <button className="change-qty" id="plus" onClick={handleChange}>
           +
         </button>
       </div>
-      <button className="mint-btn" onClick={send(mintTransaction)}>
-        Mint
-      </button>
       <div>
-        {nftsMinted}/{DROP_SIZE} NFTs minted
+        {nftsMinted}/{DROP_SIZE}
       </div>
     </div>
   );

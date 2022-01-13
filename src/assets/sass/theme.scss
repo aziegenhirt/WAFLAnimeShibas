@@ -249,19 +249,28 @@ button {
   font-size: 1.5rem;
 }
 
-.input-qty {
-  button {
-    padding: 1rem;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    margin: 1rem;
-  }
-}
-
 main {
-  background-image: url("../img/1500x500.jpg") !important;
+  background-image: url("../img/16_9.png") !important;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  display: grid;
+  place-items: center;
+
+  .mint-container {
+    margin-top: 25rem;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .change-qty {
+      padding: 1rem;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin: 1rem;
+    }
+  }
 }
