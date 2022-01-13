@@ -31,7 +31,7 @@ const Navbar = () => {
           {loggedIn && (
             <NavItem>
               <a href="/" onClick={logOut}>
-                Close
+                Log out
               </a>
             </NavItem>
           )}

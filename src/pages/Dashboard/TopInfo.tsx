@@ -12,7 +12,6 @@ const TopInfo = () => {
   return (
     <div className="text-white" data-testid="topInfo">
       <div>Price: 0.4 EGLD</div>
-      <div>Max 20 NFTs per wallet</div>
     </div>
   );
 };

@@ -20,15 +20,19 @@ const Actions = () => {
   const [nftsMinted, setNftsMinted] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
 
+  const DROP_SIZE = 300;
+  const DROP_PRICE = 0.4;
+
   const getInfo = async () => {
     const contract = new SmartContract({
       address: new Address(contractAddress),
     });
     const response = await contract.runQuery(dapp.proxy, {
-      func: new ContractFunction("getMintedSupply"),
+      func: new ContractFunction("getSupplyLeft"),
     });
+    console.log(response);
     const buf = Buffer.from(response.returnData[0], "base64");
-    setNftsMinted(500 - parseInt(buf.toString("hex"), 16));
+    setNftsMinted(DROP_SIZE - parseInt(buf.toString("hex"), 16));
   };
 
   React.useEffect(() => {
@@ -37,42 +41,19 @@ const Actions = () => {
 
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
-      const co = "8BITHEROES-bcbc9f";
-
-      const x = await fetch(
-        `https://devnet-api.elrond.com/accounts/${address}/nfts/count?collections=${co}`,
-      ).then((res) => res.text());
-
-      const data = await fetch(
-        `https://devnet-api.elrond.com/accounts/${address}/nfts?size=${x}&collections=${co}`,
-      ).then((res) => res.json());
-      let count = 0;
-      for (const nft in data) {
-        if (data[nft]["nonce"] >= 1001 && data[nft]["nonce"] <= 1500) {
-          count++;
-        }
-      }
-
-      if (count >= 20) alert("You have already minted 20 NFTs from this batch");
-      else if (count + quantity > 20)
-        alert(
-          `You cannot mint ${quantity} NFTs as you have already minted ${count} NFTs from this batch`,
-        );
-      else {
-        transaction.value = `${quantity * 0.4}`;
-        transaction.data = `mint@0${quantity}`;
-        e.preventDefault();
-        sendTransaction({
-          transaction: newTransaction(transaction),
-          callbackRoute: routeNames.transaction,
-        });
-      }
+      transaction.value = `${quantity * DROP_PRICE}`;
+      transaction.data = `mint@0${quantity}`;
+      e.preventDefault();
+      sendTransaction({
+        transaction: newTransaction(transaction),
+        callbackRoute: routeNames.transaction,
+      });
     };
 
   const mintTransaction: RawTransactionType = {
     receiver: contractAddress,
     data: "mint",
-    value: "0.4",
+    value: `${DROP_PRICE}`,
     gasLimit: 600000000,
   };
 
@@ -99,7 +80,9 @@ const Actions = () => {
       <button className="mint-btn" onClick={send(mintTransaction)}>
         Mint
       </button>
-      <div>{nftsMinted}/500 NFTs minted</div>
+      <div>
+        {nftsMinted}/{DROP_SIZE} NFTs minted
+      </div>
     </div>
   );
 };
