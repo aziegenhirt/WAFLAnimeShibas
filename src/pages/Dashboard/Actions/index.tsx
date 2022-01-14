@@ -20,7 +20,7 @@ const Actions = () => {
   const [nftsMinted, setNftsMinted] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
 
-  const DROP_SIZE = 300;
+  const DROP_SIZE = 500;
   const DROP_PRICE = 0.4;
 
   const getInfo = async () => {
