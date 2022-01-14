@@ -20,20 +20,18 @@ const Actions = () => {
   const [nftsMinted, setNftsMinted] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
 
-  const DROP_SIZE = 500;
+  const DROP_SIZE = 300;
   const DROP_PRICE = 0.4;
 
   const getInfo = async () => {
-    const contract = new SmartContract({
-      address: new Address(contractAddress),
-    });
-    const response = await contract.runQuery(dapp.proxy, {
-      func: new ContractFunction("getSupplyLeft"),
-    });
-    console.log(response);
-    const buf = Buffer.from(response.returnData[0], "base64");
-    const minted = parseInt(buf.toString("hex"), 16);
-    isNaN(minted) ? setNftsMinted(0) : setNftsMinted(DROP_SIZE - minted);
+    const url = `https://devnet-api.elrond.com/accounts/${contractAddress}/nfts/count`;
+    // const data = await fetch(url).then((res) => res.json());
+    const data = await fetch(url).then((res) => res.json());
+    console.log(data);
+    // console.log(response);
+    // const buf = Buffer.from(response.returnData[0], "base64");
+    // const minted = parseInt(buf.toString("hex"), 16);
+    // isNaN(minted) ? setNftsMinted(0) : setNftsMinted(DROP_SIZE - minted);
   };
 
   React.useEffect(() => {
