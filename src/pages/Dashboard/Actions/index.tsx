@@ -24,7 +24,7 @@ const Actions = () => {
   const DROP_PRICE = 0.4;
 
   const getInfo = async () => {
-    const url = `https://devnet-api.elrond.com/accounts/${contractAddress}/nfts/count`;
+    const url = `https://api.elrond.com/accounts/${contractAddress}/nfts/count`;
     // const data = await fetch(url).then((res) => res.json());
     const data = await fetch(url).then((res) => res.json());
     console.log(data);
