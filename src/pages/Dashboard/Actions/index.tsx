@@ -25,13 +25,8 @@ const Actions = () => {
 
   const getInfo = async () => {
     const url = `https://api.elrond.com/accounts/${contractAddress}/nfts/count`;
-    // const data = await fetch(url).then((res) => res.json());
     const data = await fetch(url).then((res) => res.json());
-    console.log(data);
-    // console.log(response);
-    // const buf = Buffer.from(response.returnData[0], "base64");
-    // const minted = parseInt(buf.toString("hex"), 16);
-    // isNaN(minted) ? setNftsMinted(0) : setNftsMinted(DROP_SIZE - minted);
+    isNaN(minted) ? setNftsMinted(300) : setNftsMinted(300 - data);
   };
 
   React.useEffect(() => {
