@@ -26,7 +26,7 @@ const Actions = () => {
   const getInfo = async () => {
     const url = `https://api.elrond.com/accounts/${contractAddress}/nfts/count`;
     const data = await fetch(url).then((res) => res.json());
-    isNaN(minted) ? setNftsMinted(300) : setNftsMinted(300 - data);
+    isNaN(data) ? setNftsMinted(300) : setNftsMinted(300 - data);
   };
 
   React.useEffect(() => {
