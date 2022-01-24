@@ -229,6 +229,10 @@ footer {
   display: none;
 }
 
+[data-testid="walletLink"]:nth-of-type(odd) {
+  background-color: rgb(22, 56, 155);
+}
+
 a {
   color: #eee !important;
 }
