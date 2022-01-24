@@ -64,17 +64,19 @@ const Actions = () => {
 
   return (
     <div className="mint-container">
-      <div>
-        <button className="change-qty" id="minus" onClick={handleChange}>
-          -
-        </button>
-        <button className="mint-btn" onClick={send(mintTransaction)}>
-          Mint {quantity} NFT
-        </button>
-        <button className="change-qty" id="plus" onClick={handleChange}>
-          +
-        </button>
-      </div>
+      {nftsMinted !== DROP_SIZE && (
+        <div>
+          <button className="change-qty" id="minus" onClick={handleChange}>
+            -
+          </button>
+          <button className="mint-btn" onClick={send(mintTransaction)}>
+            Mint {quantity} NFT
+          </button>
+          <button className="change-qty" id="plus" onClick={handleChange}>
+            +
+          </button>
+        </div>
+      )}
       <div>
         {nftsMinted}/{DROP_SIZE}
       </div>
