@@ -38,7 +38,6 @@ const Actions = () => {
       transaction.value = `${quantity * DROP_PRICE}`;
       if (quantity > 9) transaction.data = `mint@${quantity}`;
       else transaction.data = `mint@0${quantity}`;
-      transaction.gasLimit = 39000000 * quantity;
       e.preventDefault();
       sendTransaction({
         transaction: newTransaction(transaction),
