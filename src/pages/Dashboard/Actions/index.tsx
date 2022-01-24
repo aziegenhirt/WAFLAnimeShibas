@@ -64,6 +64,11 @@ const Actions = () => {
 
   return (
     <div className="mint-container">
+      {nftsMinted == DROP_SIZE && (
+        <div>
+          SOLD OUT! 
+        </div>
+        )}
       {nftsMinted !== DROP_SIZE && (
         <div>
           <button className="change-qty" id="minus" onClick={handleChange}>
