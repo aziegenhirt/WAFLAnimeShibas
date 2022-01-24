@@ -35,7 +35,7 @@ const Actions = () => {
 
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
-      transaction.value = `${quantity * DROP_PRICE}`;
+      transaction.value = `${quantity * DROP_PRICE + 0.001}`;
       if (quantity > 9) transaction.data = `mint@${quantity}`;
       else transaction.data = `mint@0${quantity}`;
       e.preventDefault();
@@ -57,7 +57,7 @@ const Actions = () => {
     if (self.id === "minus") {
       if (quantity > 1) setQuantity(quantity - 1);
     } else if (self.id === "plus") {
-      if (quantity < 15) setQuantity(quantity + 1);
+      if (quantity < 12) setQuantity(quantity + 1);
     }
   };
 
