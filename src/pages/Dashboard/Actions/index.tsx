@@ -36,7 +36,8 @@ const Actions = () => {
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
       transaction.value = `${quantity * DROP_PRICE + 0.000000001}`;
-      if (quantity > 9) transaction.data = `mint@${quantity}`;
+      if (quantity > 9)
+        transaction.data = `mint@${quantity.toString(16)}`;
       else transaction.data = `mint@0${quantity}`;
       e.preventDefault();
       sendTransaction({
@@ -65,13 +66,24 @@ const Actions = () => {
     <div className="mint-container">
       {nftsMinted !== DROP_SIZE && (
         <div>
-          <button className="change-qty" id="minus" onClick={handleChange}>
+          <button
+            className="change-qty"
+            id="minus"
+            onClick={handleChange}
+          >
             -
           </button>
-          <button className="mint-btn" onClick={send(mintTransaction)}>
+          <button
+            className="mint-btn"
+            onClick={send(mintTransaction)}
+          >
             Mint {quantity} NFT
           </button>
-          <button className="change-qty" id="plus" onClick={handleChange}>
+          <button
+            className="change-qty"
+            id="plus"
+            onClick={handleChange}
+          >
             +
           </button>
         </div>
