@@ -1,24 +1,20 @@
 import * as React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
-import {
-  Address,
-  AddressValue,
-  ContractFunction,
-  SmartContract,
-  Query,
-} from "@elrondnetwork/erdjs";
 import { contractAddress } from "config";
 import { RawTransactionType } from "helpers/types";
 import useNewTransaction from "pages/Transaction/useNewTransaction";
 import { routeNames } from "routes";
+import Countdown from "react-countdown";
 
 const Actions = () => {
   const sendTransaction = Dapp.useSendTransaction();
-  const { address, dapp } = Dapp.useContext();
+  const { account } = Dapp.useContext();
   const newTransaction = useNewTransaction();
 
-  const [nftsMinted, setNftsMinted] = React.useState(0);
+  const [nftsMinted, setNftsMinted] = React.useState(300);
   const [quantity, setQuantity] = React.useState(1);
+  const [balance, setBalance] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const DROP_SIZE = 300;
   const DROP_PRICE = 0.6;
@@ -31,18 +27,26 @@ const Actions = () => {
 
   React.useEffect(() => {
     getInfo();
+    const rounded =
+      Math.round((100 * parseInt(account.balance)) / 10 ** 18) / 100;
+    setBalance(rounded);
   }, []);
 
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
       transaction.value = `${quantity * DROP_PRICE}`;
-      if (quantity > 9) transaction.data = `mint@0${quantity.toString(16)}`;
-      else transaction.data = `mint@0${quantity}`;
-      e.preventDefault();
-      sendTransaction({
-        transaction: newTransaction(transaction),
-        callbackRoute: routeNames.transaction,
-      });
+      if (quantity * DROP_PRICE > balance) {
+        setQuantity(Math.floor(balance / DROP_PRICE));
+        alert("EGLD balance insufficient.");
+      } else {
+        if (quantity > 9) transaction.data = `mint@0${quantity.toString(16)}`;
+        else transaction.data = `mint@0${quantity}`;
+        e.preventDefault();
+        sendTransaction({
+          transaction: newTransaction(transaction),
+          callbackRoute: routeNames.transaction,
+        });
+      }
     };
 
   const mintTransaction: RawTransactionType = {
@@ -63,22 +67,48 @@ const Actions = () => {
 
   return (
     <div className="mint-container">
-      {nftsMinted !== DROP_SIZE && (
-        <div>
-          <button className="change-qty" id="minus" onClick={handleChange}>
-            -
-          </button>
-          <button className="mint-btn" onClick={send(mintTransaction)}>
-            Mint {quantity} NFT
-          </button>
-          <button className="change-qty" id="plus" onClick={handleChange}>
-            +
-          </button>
+      {open && (
+        <div style={{ textAlign: "center" }}>
+          {nftsMinted !== DROP_SIZE && (
+            <>
+              <button className="change-qty" id="minus" onClick={handleChange}>
+                -
+              </button>
+              <button className="mint-btn" onClick={send(mintTransaction)}>
+                Mint {quantity} NFT
+              </button>
+              <button className="change-qty" id="plus" onClick={handleChange}>
+                +
+              </button>
+              <div className="mint-info">
+                <div>Balance: {balance} EGLD</div>
+                <div>Price: {DROP_PRICE * quantity} EGLD</div>
+              </div>
+            </>
+          )}
+          {nftsMinted === DROP_SIZE && (
+            <div style={{ padding: "1rem 2rem" }}>SOLD OUT</div>
+          )}
+          <div>
+            {nftsMinted}/{DROP_SIZE}
+          </div>
         </div>
       )}
-      <div>
-        {nftsMinted}/{DROP_SIZE}
-      </div>
+      {open === false && (
+        <Countdown
+          className="countdown"
+          date={Date.UTC(2022, 0, 31, 10, 0, 0)}
+          onMount={() => {
+            if (Date.UTC(2022, 0, 31, 10, 0, 0) < Date.now()) {
+              setOpen(true);
+            }
+          }}
+          onComplete={() => {
+            getInfo();
+            setOpen(true);
+          }}
+        />
+      )}
     </div>
   );
 };
