@@ -21,7 +21,7 @@ const Actions = () => {
   const [quantity, setQuantity] = React.useState(1);
 
   const DROP_SIZE = 300;
-  const DROP_PRICE = 0.5;
+  const DROP_PRICE = 0.6;
 
   const getInfo = async () => {
     const url = `https://api.elrond.com/accounts/${contractAddress}/nfts/count`;
