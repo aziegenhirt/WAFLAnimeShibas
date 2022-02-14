@@ -20,13 +20,13 @@ const Actions = () => {
   const [nftsMinted, setNftsMinted] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
 
-  const DROP_SIZE = 500;
-  const DROP_PRICE = 0.8;
+  const DROP_SIZE = 50;
+  const DROP_PRICE = 0.6;
 
   const getInfo = async () => {
     const url = `https://api.elrond.com/accounts/${contractAddress}/nfts/count`;
     const data = await fetch(url).then((res) => res.json());
-    isNaN(data) ? setNftsMinted(500) : setNftsMinted(500 - data);
+    isNaN(data) ? setNftsMinted(50) : setNftsMinted(50 - data);
   };
 
   React.useEffect(() => {
