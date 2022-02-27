@@ -12,7 +12,6 @@ const Actions = () => {
 
   const [nftsMinted, setNftsMinted] = React.useState(300);
   const [quantity, setQuantity] = React.useState(1);
-  const [balance, setBalance] = React.useState(0);
   const [secondsLeft, setSecondsLeft] = React.useState(0);
 
   const DROP_SIZE = 300;
@@ -34,9 +33,6 @@ const Actions = () => {
 
   React.useEffect(() => {
     getInfo();
-    const rounded =
-      Math.round((100 * parseInt(account.balance)) / 10 ** 18) / 100;
-    setBalance(rounded);
     getTimeLeft();
   }, []);
 
@@ -78,6 +74,7 @@ const Actions = () => {
         if (!eligible) alert("LKMEX balance insufficient.");
       } else {
         transaction.value = `${Math.round(quantity * EGLD_PRICE * 100) / 100}`;
+        const balance = parseInt(account.balance) / 10 ** 18;
         if (quantity * EGLD_PRICE > balance) {
           setQuantity(Math.floor(balance / EGLD_PRICE));
           alert("EGLD balance insufficient.");
@@ -143,14 +140,11 @@ const Actions = () => {
                 </button>
               </div>
               <div className="mint-info">
-                <div>Balance: {balance} EGLD</div>
-                <div>
-                  Price: {Math.round(quantity * EGLD_PRICE * 100) / 100} EGLD /{" "}
-                  {(
-                    Math.round(quantity * LKMEX_PRICE * 100) / 100
-                  ).toLocaleString()}{" "}
-                  LKMEX
-                </div>
+                Price: {Math.round(quantity * EGLD_PRICE * 100) / 100} EGLD /{" "}
+                {(
+                  Math.round(quantity * LKMEX_PRICE * 100) / 100
+                ).toLocaleString()}{" "}
+                LKMEX
               </div>
             </>
           )}
