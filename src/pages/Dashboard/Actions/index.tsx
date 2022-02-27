@@ -146,7 +146,10 @@ const Actions = () => {
                 <div>Balance: {balance} EGLD</div>
                 <div>
                   Price: {Math.round(quantity * EGLD_PRICE * 100) / 100} EGLD /{" "}
-                  {Math.round(quantity * LKMEX_PRICE * 100) / 100} LKMEX
+                  {(
+                    Math.round(quantity * LKMEX_PRICE * 100) / 100
+                  ).toLocaleString()}{" "}
+                  LKMEX
                 </div>
               </div>
             </>
