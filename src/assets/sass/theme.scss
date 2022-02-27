@@ -262,7 +262,7 @@ main {
   place-items: center;
 
   .mint-container {
-    margin-top: 35rem;
+    margin-top: 20rem;
     background-color: rgba(0, 0, 0, 0.5) !important;
     display: flex;
     flex-direction: column;
@@ -279,16 +279,17 @@ main {
   }
 }
 
-// LOGIN
-
 .card.my-4.text-center,
 .home-login {
   background: rgba(0, 0, 0, 0.7);
   font-size: 1.4rem;
 }
 
-// COUNTDOWN
-
 .countdown {
   font-size: 3.5rem;
+}
+
+.input-qty {
+  display: flex;
+  align-items: center;
 }
