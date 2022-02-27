@@ -14,6 +14,8 @@ export const walletConnectDeepLink =
 
 export const contractAddress =
   "erd1qqqqqqqqqqqqqpgqcscrlpmpy0qm5n40aszjf6mnjthvla6rs5vqqfk69l";
+export const bech32ContractAddress =
+  "00000000000000000500c4303f876123c1ba4eafec0524eb7392eecff7438518";
 
 export const network: Dapp.NetworkType = {
   id: "mainnet",
