@@ -109,7 +109,7 @@ const Actions = () => {
     if (self.id === "minus") {
       if (quantity > 1) setQuantity(quantity - 1);
     } else if (self.id === "plus") {
-      if (quantity < 12) setQuantity(quantity + 1);
+      if (quantity < 2) setQuantity(quantity + 1);
     }
   };
 
