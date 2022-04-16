@@ -10,18 +10,18 @@ const Actions = () => {
   const { account } = Dapp.useContext();
   const newTransaction = useNewTransaction();
 
-  const [nftsMinted, setNftsMinted] = React.useState(300);
+  const [nftsMinted, setNftsMinted] = React.useState(100);
   const [quantity, setQuantity] = React.useState(1);
   const [secondsLeft, setSecondsLeft] = React.useState(0);
 
-  const DROP_SIZE = 300;
-  const EGLD_PRICE = 0.5;
-  const LKMEX_PRICE = 450000;
+  const DROP_SIZE = 100;
+  const EGLD_PRICE = 0.0;
+  const LKMEX_PRICE = 250;
 
   const getInfo = async () => {
     const url = `${network.apiAddress}/accounts/${contractAddress}/nfts/count`;
     const data = await fetch(url).then((res) => res.json());
-    isNaN(data) ? setNftsMinted(9) : setNftsMinted(9 - data);
+    isNaN(data) ? setNftsMinted(100) : setNftsMinted(100 - data);
   };
 
   const getTimeLeft = () => {
@@ -38,25 +38,24 @@ const Actions = () => {
 
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
-      if (transaction.data?.startsWith("ESDTNFTTransfer")) {
+      if (transaction.data?.startsWith("ESDTTransfer")) {
         const value = LKMEX_PRICE * quantity * 10 ** 18;
 
         // Call API
-        const url = `${network.apiAddress}/accounts/${account.address}/nfts?search=LKMEX`;
+        const url = `${network.apiAddress}/accounts/${account.address}/nfts?search=WAFL`;
         const tokens = await fetch(url).then((res) => res.json());
         let eligible = false;
         for (const token of tokens) {
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
             const lkmex = new Buffer(token["collection"]).toString("hex");
-            const nonce = token["identifier"].split("-")[2];
-            transaction.data += `@${lkmex}@${nonce}`;
+            transaction.data += `@${lkmex}`;
             let lkmex_amount = value.toString(16);
             if (lkmex_amount.length % 2 == 1) lkmex_amount = `0${lkmex_amount}`;
             transaction.data += `@${lkmex_amount}`;
 
             transaction.data += `@${bech32ContractAddress}`;
-            transaction.data += `@${new Buffer("mint_with_lkmex").toString(
+            transaction.data += `@${new Buffer("mint_with_wafl").toString(
               "hex",
             )}`;
             let qty = quantity.toString(16);
@@ -71,7 +70,7 @@ const Actions = () => {
             return;
           }
         }
-        if (!eligible) alert("LKMEX balance insufficient.");
+        if (!eligible) alert("WAFL balance insufficient.");
       } else {
         transaction.value = `${Math.round(quantity * EGLD_PRICE * 100) / 100}`;
         const balance = parseInt(account.balance) / 10 ** 18;
@@ -99,7 +98,7 @@ const Actions = () => {
 
   const lkmexTransaction: RawTransactionType = {
     receiver: account.address,
-    data: "ESDTNFTTransfer",
+    data: "ESDTTransfer",
     value: "0",
     gasLimit: 600000000,
   };
@@ -128,11 +127,8 @@ const Actions = () => {
                   -
                 </button>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <button className="mint-btn" onClick={send(mintTransaction)}>
-                    Mint {quantity} NFT with EGLD
-                  </button>
                   <button className="mint-btn" onClick={send(lkmexTransaction)}>
-                    Mint {quantity} NFT with LKMEX
+                    Mint {quantity} NFT with WAFL
                   </button>
                 </div>
                 <button className="change-qty" id="plus" onClick={handleChange}>
@@ -144,7 +140,7 @@ const Actions = () => {
                 {(
                   Math.round(quantity * LKMEX_PRICE * 100) / 100
                 ).toLocaleString()}{" "}
-                LKMEX
+                WAFL
               </div>
             </>
           )}
