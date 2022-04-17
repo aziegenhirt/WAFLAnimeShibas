@@ -16,7 +16,7 @@ const Actions = () => {
 
   const DROP_SIZE = 100;
   const EGLD_PRICE = 0.0;
-  const LKMEX_PRICE = 250;
+  const WAFL_PRICE = 250;
 
   const getInfo = async () => {
     const url = `${network.apiAddress}/accounts/${contractAddress}/nfts/count`;
@@ -39,7 +39,7 @@ const Actions = () => {
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
       if (transaction.data?.startsWith("ESDTTransfer")) {
-        const value = LKMEX_PRICE * quantity * 10 ** 5;
+        const value = WAFL_PRICE * quantity * 10 ** 5;
 
         // Call API
         const url = `${network.apiAddress}/accounts/${account.address}/tokens/WAFL-e74a57`;
@@ -48,11 +48,11 @@ const Actions = () => {
         for (const token of tokens) {
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
-            const lkmex = new Buffer(token["identifier"]).toString("hex");
-            transaction.data += `@${lkmex}`;
-            let lkmex_amount = value.toString(16);
-            if (lkmex_amount.length % 2 == 1) lkmex_amount = `0${lkmex_amount}`;
-            transaction.data += `@${lkmex_amount}`;
+            const wafl = new Buffer(token["identifier"]).toString("hex");
+            transaction.data += `@${wafl}`;
+            let wafl_amount = value.toString(16);
+            if (wafl_amount.length % 2 == 1) wafl_amount = `0${wafl_amount}`;
+            transaction.data += `@${wafl_amount}`;
 
             transaction.data += `@${bech32ContractAddress}`;
             transaction.data += `@${new Buffer("mint_with_wafl").toString(
@@ -89,7 +89,7 @@ const Actions = () => {
       }
     };
 
-  const lkmexTransaction: RawTransactionType = {
+  const waflTransaction: RawTransactionType = {
     receiver: contractAddress,
     data: "ESDTTransfer",
     value: "0",
@@ -120,7 +120,7 @@ const Actions = () => {
                   -
                 </button>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <button className="mint-btn" onClick={send(lkmexTransaction)}>
+                  <button className="mint-btn" onClick={send(waflTransaction)}>
                     Mint {quantity} NFT with WAFL
                   </button>
                 </div>
@@ -131,7 +131,7 @@ const Actions = () => {
               <div className="mint-info">
                 Price: {Math.round(quantity * EGLD_PRICE * 100) / 100} EGLD /{" "}
                 {(
-                  Math.round(quantity * LKMEX_PRICE * 100) / 100
+                  Math.round(quantity * WAFL_PRICE * 100) / 100
                 ).toLocaleString()}{" "}
                 WAFL
               </div>
