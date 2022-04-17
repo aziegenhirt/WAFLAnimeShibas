@@ -42,13 +42,13 @@ const Actions = () => {
         const value = LKMEX_PRICE * quantity * 10 ** 18;
 
         // Call API
-        const url = `${network.apiAddress}/accounts/${account.address}/nfts?search=WAFL`;
+        const url = `${network.apiAddress}/accounts/${account.address}/tokens/WAFL-e74a57`;
         const tokens = await fetch(url).then((res) => res.json());
         let eligible = false;
         for (const token of tokens) {
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
-            const lkmex = new Buffer(token["collection"]).toString("hex");
+            const lkmex = new Buffer(token["identifier"]).toString("hex");
             transaction.data += `@${lkmex}`;
             let lkmex_amount = value.toString(16);
             if (lkmex_amount.length % 2 == 1) lkmex_amount = `0${lkmex_amount}`;
