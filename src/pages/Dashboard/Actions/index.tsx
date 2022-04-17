@@ -48,6 +48,7 @@ const Actions = () => {
         for (const token of tokens) {
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
+            alert("Balance>Value");
             const lkmex = new Buffer(token["identifier"]).toString("hex");
             transaction.data += `@${lkmex}`;
             let lkmex_amount = value.toString(16);
