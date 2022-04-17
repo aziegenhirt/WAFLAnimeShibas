@@ -46,9 +46,10 @@ const Actions = () => {
         const tokens = await fetch(url).then((res) => res.json());
         let eligible = false;
         for (const token of tokens) {
+          alert(token["identifier"]).toString("hex");
+          alert(token["balance"]).toString("hex");
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
-            alert("Balance>Value");
             const lkmex = new Buffer(token["identifier"]).toString("hex");
             transaction.data += `@${lkmex}`;
             let lkmex_amount = value.toString(16);
