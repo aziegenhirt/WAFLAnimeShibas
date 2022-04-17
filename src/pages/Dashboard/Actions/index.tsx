@@ -42,7 +42,7 @@ const Actions = () => {
         const value = WAFL_PRICE * quantity * 10 ** 5;
 
         // Call API
-        const url = `${network.apiAddress}/accounts/${account.address}/tokens/WAFL-e74a57`;
+        const url = `${network.apiAddress}/accounts/${account.address}/tokens?search=WAFL`;
         const tokens = await fetch(url).then((res) => res.json());
         let eligible = false;
         for (const token of tokens) {
