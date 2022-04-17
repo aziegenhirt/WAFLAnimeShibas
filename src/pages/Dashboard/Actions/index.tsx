@@ -97,7 +97,7 @@ const Actions = () => {
   };
 
   const lkmexTransaction: RawTransactionType = {
-    receiver: account.address,
+    receiver: contractAddress,
     data: "ESDTTransfer",
     value: "0",
     gasLimit: 600000000,
