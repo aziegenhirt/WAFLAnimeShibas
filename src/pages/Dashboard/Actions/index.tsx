@@ -54,7 +54,6 @@ const Actions = () => {
             if (wafl_amount.length % 2 == 1) wafl_amount = `0${wafl_amount}`;
             transaction.data += `@${wafl_amount}`;
 
-            transaction.data += `@${bech32ContractAddress}`;
             transaction.data += `@${new Buffer("mint_with_wafl").toString(
               "hex",
             )}`;
