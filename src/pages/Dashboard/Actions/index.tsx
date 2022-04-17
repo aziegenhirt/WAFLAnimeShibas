@@ -46,8 +46,6 @@ const Actions = () => {
         const tokens = await fetch(url).then((res) => res.json());
         let eligible = false;
         for (const token of tokens) {
-          alert(token["identifier"]).toString("hex");
-          alert(token["balance"]).toString("hex");
           if (parseInt(token["balance"]) >= value) {
             eligible = true;
             const lkmex = new Buffer(token["identifier"]).toString("hex");
@@ -90,13 +88,6 @@ const Actions = () => {
         }
       }
     };
-
-  const mintTransaction: RawTransactionType = {
-    receiver: contractAddress,
-    data: "mint",
-    value: `${EGLD_PRICE}`,
-    gasLimit: 600000000,
-  };
 
   const lkmexTransaction: RawTransactionType = {
     receiver: contractAddress,
