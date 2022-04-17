@@ -39,7 +39,7 @@ const Actions = () => {
   const send =
     (transaction: RawTransactionType) => async (e: React.MouseEvent) => {
       if (transaction.data?.startsWith("ESDTTransfer")) {
-        const value = LKMEX_PRICE * quantity * 10 ** 18;
+        const value = LKMEX_PRICE * quantity * 10 ** 5;
 
         // Call API
         const url = `${network.apiAddress}/accounts/${account.address}/tokens/WAFL-e74a57`;
