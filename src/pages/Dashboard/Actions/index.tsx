@@ -54,12 +54,9 @@ const Actions = () => {
             if (wafl_amount.length % 2 == 1) wafl_amount = `0${wafl_amount}`;
             transaction.data += `@${wafl_amount}`;
 
-            transaction.data += `@${new Buffer("mint_with_wafl").toString(
+            transaction.data += `@${new Buffer("mintRandomNft").toString(
               "hex",
             )}`;
-            let qty = quantity.toString(16);
-            if (qty.length % 2 == 1) qty = `0${qty}`;
-            transaction.data += `@${qty}`;
 
             e.preventDefault();
             sendTransaction({
@@ -100,7 +97,7 @@ const Actions = () => {
     if (self.id === "minus") {
       if (quantity > 1) setQuantity(quantity - 1);
     } else if (self.id === "plus") {
-      if (quantity < 12) setQuantity(quantity + 1);
+      if (quantity < 1) setQuantity(quantity + 1);
     }
   };
 
